@@ -8,16 +8,16 @@ import org.junit.Test;
 
 public class DBListTest {
 
-    DBList db = new DBList();
+	DBList db = new DBList();
 
-    @Before
-    public void makeDB() {
-       db.makeDB();
-    }
+	@Before
+	public void makeDB() {
+		db.makeDB();
+	}
 
-    @Test
-    public void checkDB() {
-       Assert.assertEquals("성공", db.checkDB());
-    }
+	@Test
+	public void checkDB() {
+		Assert.assertEquals("성공", db.checkDB());
+	}
 
 }
