@@ -53,7 +53,7 @@ public class HelloArcus {
 	for(int i = 0; i < 1000 ; i++)
 	//B+트리에 1000개의 원소를 넣는다.
 	{
-		long bkey = 1+rand.nextInt(10000); //1~10000까지의 랜덤한 값을 넣음
+		long bkey = 1+rand.nextInt(100000); //1~100000까지의 랜덤한 값을 넣음
     		String value = Long.toString(bkey); //key와 value는 같다.
 		try {
 	    	    this.arcusClient.asyncBopInsert(key, bkey, eflag, value, attrs).get();
@@ -76,7 +76,7 @@ public class HelloArcus {
 
 	try 
 	{
-	    future = this.arcusClient.asyncBopGet(key, 1000L, 1999L, filter, 0, 1000, false, false); //100~199까지의 Element를 일괄 조회한다.
+	    future = this.arcusClient.asyncBopGet(key, 1000L, 2000L, filter, 0, 30, false, false); //1000~2000까지의 Element를 일괄 조회한다.
 	}  
 	catch (Exception e) {
             e.printStackTrace();	

@@ -47,7 +47,7 @@ public class DBList {
 	    {//DB에 1000개의 원소를 넣는다.
 		try
 		{
-		    long bkey = 1+rand.nextInt(10000);	//1~10000까지의 랜덤한 값을 넣음	
+		    long bkey = 1+rand.nextInt(100000);	//1~100000까지의 랜덤한 값을 넣음	
 	            stmt.executeUpdate("insert into test (id, value) values ( "+bkey+", '"+bkey+"')");//key와 value는 같다.
 		}
 		catch(Exception e)
@@ -76,7 +76,7 @@ public class DBList {
     public String checkDB() {
         Connection conn = null ;  
         Statement stmt = null;  
-	int max_num = 1000;
+	int max_num = 30;
         String resultString = "Not OK.";
         try  
         {  
@@ -86,7 +86,7 @@ public class DBList {
 	    stmt = conn.createStatement();  
 
 	    ResultSet rs = null;  
-	    rs = stmt.executeQuery("select * from test where id >= 1000 and id <= 1999");  //100~199까지의 Element를 일괄 조회한다.
+	    rs = stmt.executeQuery("select * from test where id >= 1000 and id <= 1999");  //1000~2000까지의 Element를 일괄 조회한다.
 	  
 	    while (rs.next()) {  
 		int key = rs.getInt("id");  
