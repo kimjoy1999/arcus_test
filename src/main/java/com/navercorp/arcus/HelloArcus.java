@@ -116,7 +116,7 @@ public class HelloArcus {
 		future.cancel(true);
             e.printStackTrace();
 	}
-	this.arcusClient.flush("");
+	this.arcusClient.flush("Prefix");
 
 	this.arcusClient.shutdown();
         return resultString;
