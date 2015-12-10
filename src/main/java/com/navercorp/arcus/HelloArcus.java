@@ -46,12 +46,13 @@ public class HelloArcus {
 	byte[] eflag = new byte[] { 1, 1, 1, 1 };
 	Random rand=new Random(); 
 
-        boolean setSuccess = false;
+    boolean setSuccess = false;
 	CollectionAttributes attrs  = new CollectionAttributes();
+	attrs.setMaxCount(10000); //만개까지 가능하도록
 	CollectionFuture<Boolean> future = null;
 
-	for(int i = 0; i < 1000 ; i++)
-	//B+트리에 1000개의 원소를 넣는다.
+	for(int i = 0 ; i < 10000 ; i++)
+	//B+트리에 10000개의 원소를 넣는다.
 	{
 		long bkey = 1+rand.nextInt(100000); //1~100000까지의 랜덤한 값을 넣음
     		String value = Long.toString(bkey); //key와 value는 같다.
@@ -76,7 +77,7 @@ public class HelloArcus {
 
 	try 
 	{
-	    future = this.arcusClient.asyncBopGet(key, 1000L, 2000L, filter, 0, 30, false, false); //1000~2000까지의 Element를 일괄 조회한다.
+	    future = this.arcusClient.asyncBopGet(key, 1000L, 2000L, filter, 0, 1000, false, false); //1000~2000까지의 Element를 일괄 조회한다.
 	}  
 	catch (Exception e) {
             e.printStackTrace();	
@@ -92,7 +93,8 @@ public class HelloArcus {
 	    {
 		resultString = "성공";
 		for (Map.Entry<Long, Element<Object>> entry : result.entrySet()) {
-		    if( entry.getKey() != Long.parseLong((String)entry.getValue().getValue()))
+			
+			if( entry.getKey() != Long.parseLong((String)entry.getValue().getValue()))
 		    {
 			resultString = "error) key:" + entry.getKey() + ", value:" + (String)entry.getValue().getValue();
 			break;
@@ -125,6 +127,7 @@ public class HelloArcus {
 
 
     public static void main(String[] args){
+    System.out.println("ARCUS 10000개의 Element 삽입후 검색"); 
 	HelloArcus helloArcus = new HelloArcus("127.0.0.1:2181", "test");
 	long startTime = System.currentTimeMillis();
 	helloArcus.sayHello();

@@ -23,7 +23,7 @@ public class HelloArcus {
     private ArcusClient arcusClient;
 
     public HelloArcus(String arcusAdmin, String serviceCode) {
-	this.key = "Prefix:new3BTreeKey";
+	this.key = "Prefix:newTreeKey2";
         this.arcusAdmin = arcusAdmin;
         this.serviceCode = serviceCode;
 
@@ -50,11 +50,11 @@ public class HelloArcus {
 	CollectionAttributes attrs  = new CollectionAttributes();
 	CollectionFuture<Boolean> future = null;
 
-	for(int i = 0; i < 10000 ; i++)
+	for(int i = 0; i < 1000 ; i++)
+	//B+트리에 1000개의 원소를 넣는다.
 	{
-		long bkey = 1+rand.nextInt(1000);
-    		String value = Long.toString(bkey);
-		System.out.println("-----this.arcusClient.asyncBopInsert("+key+","+bkey+","+value+")");
+		long bkey = 1+rand.nextInt(100000); //1~100000까지의 랜덤한 값을 넣음
+    		String value = Long.toString(bkey); //key와 value는 같다.
 		try {
 	    	    this.arcusClient.asyncBopInsert(key, bkey, eflag, value, attrs).get();
 		}
@@ -76,8 +76,7 @@ public class HelloArcus {
 
 	try 
 	{
-	    //future = this.arcusClient.asyncBopGet(key, 10L, filter, false, false);
-	    future = this.arcusClient.asyncBopGet(key, 100L, 200L, filter, 0, 30, false, false);
+	    future = this.arcusClient.asyncBopGet(key, 1000L, 2000L, filter, 0, 30, false, false); //1000~2000까지의 Element를 일괄 조회한다.
 	}  
 	catch (Exception e) {
             e.printStackTrace();	
@@ -88,7 +87,6 @@ public class HelloArcus {
 	try 
 	{
 	    Map<Long, Element<Object>> result = future.get(1000L, TimeUnit.MILLISECONDS);
-	    System.out.println(result);
 	    CollectionResponse response = future.getOperationStatus().getResponse();
 	    if(result != null)
 	    {
@@ -118,11 +116,21 @@ public class HelloArcus {
 		future.cancel(true);
             e.printStackTrace();
 	}
-	System.out.println("-------------------");
 	this.arcusClient.flush("");
-	System.out.println("-------------------");
 
 	this.arcusClient.shutdown();
         return resultString;
+    }
+
+
+
+    public static void main(String[] args){
+	HelloArcus helloArcus = new HelloArcus("127.0.0.1:2181", "test");
+	long startTime = System.currentTimeMillis();
+	helloArcus.sayHello();
+
+	helloArcus.listenHello();
+	long endTime = System.currentTimeMillis();
+	System.out.println("##  소요시간(초.0f) : " + ( endTime - startTime )/1000.0f +"초"); 
     }
 }

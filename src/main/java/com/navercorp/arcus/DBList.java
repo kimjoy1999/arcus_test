@@ -43,8 +43,8 @@ public class DBList {
 
 	    stmt.executeUpdate("create table test( id int primary key, value char(20))");
 
-	    for(int i = 0; i < 1000 ; i++)
-	    {//DB에 1000개의 원소를 넣는다.
+	    for(int i = 0; i < 10000 ; i++)
+	    {//DB에 10000개의 원소를 넣는다.
 		try
 		{
 		    long bkey = 1+rand.nextInt(100000);	//1~100000까지의 랜덤한 값을 넣음	
@@ -76,7 +76,7 @@ public class DBList {
     public String checkDB() {
         Connection conn = null ;  
         Statement stmt = null;  
-	int max_num = 30;
+	int max_num = 1000;
         String resultString = "Not OK.";
         try  
         {  
@@ -91,7 +91,6 @@ public class DBList {
 	    while (rs.next()) {  
 		int key = rs.getInt("id");  
 		String str = rs.getString("value");  
-
 
 		if( key != Integer.parseInt(str))
 		{
@@ -122,6 +121,7 @@ public class DBList {
 
     public static void main(String[] args){
 	DBList dbList = new DBList();
+	System.out.println("DB 10000개의 Element 삽입후 검색"); 
 	long startTime = System.currentTimeMillis();
 	dbList.makeDB();
 
