@@ -52,7 +52,7 @@ public class HelloArcus {
 
 	for(int i = 0; i < 10000 ; i++)
 	{
-		long bkey = 1+rand.nextInt(1000);
+		long bkey = 1+rand.nextInt(100000);
     		String value = Long.toString(bkey);
 		try {
 	    	    this.arcusClient.asyncBopInsert(key, bkey, eflag, value, attrs).get();
@@ -75,7 +75,7 @@ public class HelloArcus {
 
 	try 
 	{
-	    future = this.arcusClient.asyncBopGet(key, 100L, 200L, filter, 0, 30, false, false);
+	    future = this.arcusClient.asyncBopGet(key, 1000L, 2000L, filter, 0, 30, false, false);
 	}  
 	catch (Exception e) {
             e.printStackTrace();	
