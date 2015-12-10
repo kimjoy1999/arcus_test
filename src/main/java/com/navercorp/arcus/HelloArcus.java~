@@ -50,10 +50,11 @@ public class HelloArcus {
 	CollectionAttributes attrs  = new CollectionAttributes();
 	CollectionFuture<Boolean> future = null;
 
-	for(int i = 0; i < 10000 ; i++)
+	for(int i = 0; i < 1000 ; i++)
+	//B+트리에 1000개의 원소를 넣는다.
 	{
-		long bkey = 1+rand.nextInt(1000);
-    		String value = Long.toString(bkey);
+		long bkey = 1+rand.nextInt(10000); //1~10000까지의 랜덤한 값을 넣음
+    		String value = Long.toString(bkey); //key와 value는 같다.
 		try {
 	    	    this.arcusClient.asyncBopInsert(key, bkey, eflag, value, attrs).get();
 		}
@@ -75,7 +76,7 @@ public class HelloArcus {
 
 	try 
 	{
-	    future = this.arcusClient.asyncBopGet(key, 100L, 200L, filter, 0, 30, false, false);
+	    future = this.arcusClient.asyncBopGet(key, 1000L, 1999L, filter, 0, 1000, false, false); //100~199까지의 Element를 일괄 조회한다.
 	}  
 	catch (Exception e) {
             e.printStackTrace();	
@@ -86,7 +87,6 @@ public class HelloArcus {
 	try 
 	{
 	    Map<Long, Element<Object>> result = future.get(1000L, TimeUnit.MILLISECONDS);
-	    System.out.println(result);
 	    CollectionResponse response = future.getOperationStatus().getResponse();
 	    if(result != null)
 	    {
@@ -116,9 +116,7 @@ public class HelloArcus {
 		future.cancel(true);
             e.printStackTrace();
 	}
-	System.out.println("-------------------");
 	this.arcusClient.flush("");
-	System.out.println("-------------------");
 
 	this.arcusClient.shutdown();
         return resultString;

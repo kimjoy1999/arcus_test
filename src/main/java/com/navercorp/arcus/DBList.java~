@@ -43,11 +43,11 @@ public class DBList {
 
 	    stmt.executeUpdate("create table test( id int primary key, value char(20))");
 
-	    for(int i = 0; i < 10000 ; i++)
+	    for(int i = 0; i < 1000 ; i++)
 	    {
 		try
 		{
-		    long bkey = 1+rand.nextInt(1000);		
+		    long bkey = 1+rand.nextInt(10000);		
 	            stmt.executeUpdate("insert into test (id, value) values ( "+bkey+", '"+bkey+"')");
 		}
 		catch(Exception e)
@@ -76,7 +76,7 @@ public class DBList {
     public String checkDB() {
         Connection conn = null ;  
         Statement stmt = null;  
-	int max_num = 30;
+	int max_num = 1000;
         String resultString = "Not OK.";
         try  
         {  
@@ -86,7 +86,7 @@ public class DBList {
 	    stmt = conn.createStatement();  
 
 	    ResultSet rs = null;  
-	    rs = stmt.executeQuery("select * from test where id >= 100 and id <= 200");  
+	    rs = stmt.executeQuery("select * from test where id >= 1000 and id <= 1999");  
 	  
 	    while (rs.next()) {  
 		int key = rs.getInt("id");  
@@ -121,7 +121,7 @@ public class DBList {
 
 
     public static void main(String[] args){
-	HelloArcus dbList = new DBList();
+	DBList dbList = new DBList();
 	long startTime = System.currentTimeMillis();
 	dbList.makeDB();
 
